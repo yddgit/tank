@@ -2,26 +2,29 @@ package com.my.project;
 
 import java.awt.*;
 
-public class Tank {
+public class Bullet {
+    private static final int SPEED = 10;
+    private static final int WIDTH = 20;
+    private static final int HEIGHT = 20;
     private int x;
     private int y;
-    private Dir dir = Dir.DOWN;
-    private boolean moving = false;
-    public static final int SPEED = 5;
+    private Dir dir;
 
-    public Tank(int x, int y, Dir dir) {
+    public Bullet(int x, int y, Dir dir) {
         this.x = x;
         this.y = y;
         this.dir = dir;
     }
 
     public void paint(Graphics g) {
-        g.fillRect(x, y, 50, 50);
+        Color c = g.getColor();
+        g.setColor(Color.RED);
+        g.fillOval(x, y, WIDTH, HEIGHT);
+        g.setColor(c);
         move();
     }
 
     private void move() {
-        if(!moving) return;
         switch(dir) {
             case LEFT:
                 x -= SPEED;
@@ -38,19 +41,4 @@ public class Tank {
         }
     }
 
-    public Dir getDir() {
-        return dir;
-    }
-
-    public void setDir(Dir dir) {
-        this.dir = dir;
-    }
-
-    public boolean isMoving() {
-        return moving;
-    }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
-    }
 }
