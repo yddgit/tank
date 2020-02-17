@@ -6,8 +6,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class TankFrame extends Frame {
@@ -16,7 +16,7 @@ public class TankFrame extends Frame {
     public static final int GAME_HEIGHT = 600;
 
     Tank myTank = new Tank(200, 200, Dir.DOWN, this);
-    List<Bullet> bulletes = new ArrayList<Bullet>();
+    List<Bullet> bullets = new ArrayList<Bullet>();
 
     public TankFrame() {
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -54,12 +54,18 @@ public class TankFrame extends Frame {
     public void paint(Graphics g) {
         Color c = g.getColor();
         g.setColor(Color.WHITE);
-        g.drawString("子弹的数量：" + bulletes.size(), 15, 50);
+        g.drawString("子弹的数量：" + bullets.size(), 15, 50);
         g.setColor(c);
 
         myTank.paint(g);
-        for (int i = 0; i < bulletes.size(); i++) {
-            bulletes.get(i).paint(g);
+
+        for(Iterator<Bullet> it = bullets.iterator(); it.hasNext();) {
+            Bullet b = it.next();
+            if(!b.isLive()) {
+                it.remove();
+                continue;
+            }
+            b.paint(g);
         }
     }
 

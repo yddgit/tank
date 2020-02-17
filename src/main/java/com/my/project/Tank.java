@@ -60,6 +60,6 @@ public class Tank {
     }
 
     public void fire() {
-        tf.bulletes.add(new Bullet(this.x + 15, this.y + 15, this.dir, this.tf));
+        tf.bullets.add(new Bullet(this.x + 15, this.y + 15, this.dir, this.tf));
     }
 }

@@ -20,10 +20,6 @@ public class Bullet {
     }
 
     public void paint(Graphics g) {
-        if(!live) {
-            tf.bulletes.remove(this);
-        }
-
         Color c = g.getColor();
         g.setColor(Color.RED);
         g.fillOval(x, y, WIDTH, HEIGHT);
@@ -52,4 +48,11 @@ public class Bullet {
         }
     }
 
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
+    }
 }
