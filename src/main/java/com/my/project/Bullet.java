@@ -18,6 +18,9 @@ public class Bullet {
     }
 
     public void paint(Graphics g) {
+
+        if(!live) return;
+
         switch(dir) {
             case UP:
                 g.drawImage(ResourceMgr.bulletU, x, y, null);
@@ -56,6 +59,61 @@ public class Bullet {
         if(x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) {
             live = false;
         }
+    }
+
+    public int width() {
+        int width = 0;
+        switch(dir) {
+            case UP:
+                width = ResourceMgr.bulletU.getWidth();
+                break;
+            case DOWN:
+                width = ResourceMgr.bulletD.getWidth();
+                break;
+            case LEFT:
+                width = ResourceMgr.bulletL.getWidth();
+                break;
+            case RIGHT:
+                width = ResourceMgr.bulletR.getWidth();
+                break;
+            default:
+                break;
+        }
+        return width;
+    }
+
+    public int height() {
+        int height = 0;
+        switch(dir) {
+            case UP:
+                height = ResourceMgr.bulletU.getHeight();
+                break;
+            case DOWN:
+                height = ResourceMgr.bulletD.getHeight();
+                break;
+            case LEFT:
+                height = ResourceMgr.bulletL.getHeight();
+                break;
+            case RIGHT:
+                height = ResourceMgr.bulletR.getHeight();
+                break;
+            default:
+                break;
+        }
+        return height;
+    }
+
+    public void collisionWith(Tank tank) {
+        Rectangle rect1 = new Rectangle(this.x, this.y, this.width(), this.height());
+        Rectangle rect2 = new Rectangle(tank.getX(), tank.getY(), tank.width(), tank.height());
+        if(rect1.intersects(rect2)) {
+            tank.die();
+            this.die();
+        }
+    }
+
+    private void die() {
+        this.live = false;
     }
 
     public boolean isLive() {

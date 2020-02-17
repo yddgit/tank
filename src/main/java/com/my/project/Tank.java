@@ -8,6 +8,8 @@ public class Tank {
     private Dir dir = Dir.DOWN;
     private boolean moving = false;
     private TankFrame tf;
+    private boolean live = true;
+
     public static final int SPEED = 5;
 
     public Tank(int x, int y, Dir dir, TankFrame tf) {
@@ -18,6 +20,9 @@ public class Tank {
     }
 
     public void paint(Graphics g) {
+
+        if(!live) return;
+
         switch(dir) {
             case UP:
                 g.drawImage(ResourceMgr.tankU, x, y, null);
@@ -55,6 +60,56 @@ public class Tank {
         }
     }
 
+    public void fire() {
+        tf.bullets.add(new Bullet(this.x + 19, this.y + 22, this.dir, this.tf));
+    }
+
+    public int width() {
+        int width = 0;
+        switch(dir) {
+            case UP:
+                width = ResourceMgr.tankU.getWidth();
+                break;
+            case DOWN:
+                width = ResourceMgr.tankD.getWidth();
+                break;
+            case LEFT:
+                width = ResourceMgr.tankL.getWidth();
+                break;
+            case RIGHT:
+                width = ResourceMgr.tankR.getWidth();
+                break;
+            default:
+                break;
+        }
+        return width;
+    }
+
+    public int height() {
+        int height = 0;
+        switch(dir) {
+            case UP:
+                height = ResourceMgr.tankU.getHeight();
+                break;
+            case DOWN:
+                height = ResourceMgr.tankD.getHeight();
+                break;
+            case LEFT:
+                height = ResourceMgr.tankL.getHeight();
+                break;
+            case RIGHT:
+                height = ResourceMgr.tankR.getHeight();
+                break;
+            default:
+                break;
+        }
+        return height;
+    }
+
+    public void die() {
+        this.live = false;
+    }
+
     public Dir getDir() {
         return dir;
     }
@@ -71,7 +126,27 @@ public class Tank {
         this.moving = moving;
     }
 
-    public void fire() {
-        tf.bullets.add(new Bullet(this.x + 19, this.y + 22, this.dir, this.tf));
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
     }
 }
