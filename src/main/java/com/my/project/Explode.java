@@ -27,7 +27,9 @@ public class Explode {
             this.die();
             return;
         }
-
+        if(step == 1) {
+            new Audio("audio/explode.wav").start();
+        }
         g.drawImage(ResourceMgr.explodes[step++], x, y, null);
     }
 
