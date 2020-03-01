@@ -1,21 +1,25 @@
 package com.my.project;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Tank {
     private int x;
     private int y;
     private Dir dir = Dir.DOWN;
-    private boolean moving = false;
+    private Group group = Group.BAD;
+    private boolean moving = true;
     private TankFrame tf;
     private boolean live = true;
+    private Random random = new Random();
 
     public static final int SPEED = 5;
 
-    public Tank(int x, int y, Dir dir, TankFrame tf) {
+    public Tank(int x, int y, Dir dir, Group group, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.group = group;
         this.tf = tf;
     }
 
@@ -43,7 +47,9 @@ public class Tank {
     }
 
     private void move() {
+
         if(!moving) return;
+
         switch(dir) {
             case LEFT:
                 x -= SPEED;
@@ -58,10 +64,14 @@ public class Tank {
                 y += SPEED;
                 break;
         }
+
+        if(random.nextInt(10) > 8) {
+            this.fire();
+        }
     }
 
     public void fire() {
-        tf.bullets.add(new Bullet(this.x + 19, this.y + 22, this.dir, this.tf));
+        tf.bullets.add(new Bullet(this.x + 19, this.y + 22, this.dir, this.group, this.tf));
     }
 
     public int width() {
@@ -148,5 +158,13 @@ public class Tank {
 
     public void setLive(boolean live) {
         this.live = live;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }
