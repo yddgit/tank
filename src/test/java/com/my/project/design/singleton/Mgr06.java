@@ -5,7 +5,8 @@ package com.my.project.design.singleton;
  * 通过缩小同步代码块的方式提高效率，以下方式是可行的
  */
 public class Mgr06 {
-    private static Mgr06 INSTANCE;
+    // JIT、指令重排
+    private static volatile Mgr06 INSTANCE;
 
     private Mgr06() {}
 
