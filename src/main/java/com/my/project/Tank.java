@@ -1,6 +1,7 @@
 package com.my.project;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class Tank {
@@ -13,6 +14,9 @@ public class Tank {
     private boolean live = true;
     private Rectangle rectangle = new Rectangle();
     private Random random = new Random();
+
+    private int flashCount = 0;
+    private int flashImage = 0;
 
     public static final int SPEED = 5;
 
@@ -28,27 +32,38 @@ public class Tank {
         this.rectangle.height = this.height();
     }
 
-    public void paint(Graphics g) {
-
-        if(!live) return;
-
+    private BufferedImage currentImage() {
         switch(dir) {
             case UP:
-                g.drawImage(Group.GOOD.equals(this.group) ? ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
-                break;
+                return Group.GOOD.equals(this.group) ? ResourceMgr.goodTankU[flashImage] : ResourceMgr.badTankU[flashImage];
             case DOWN:
-                g.drawImage(Group.GOOD.equals(this.group) ? ResourceMgr.goodTankD : ResourceMgr.badTankD, x, y, null);
-                break;
+                return Group.GOOD.equals(this.group) ? ResourceMgr.goodTankD[flashImage] : ResourceMgr.badTankD[flashImage];
             case LEFT:
-                g.drawImage(Group.GOOD.equals(this.group) ? ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);
-                break;
+                return Group.GOOD.equals(this.group) ? ResourceMgr.goodTankL[flashImage] : ResourceMgr.badTankL[flashImage];
             case RIGHT:
-                g.drawImage(Group.GOOD.equals(this.group) ? ResourceMgr.goodTankR : ResourceMgr.badTankR, x, y, null);
-                break;
+                return Group.GOOD.equals(this.group) ? ResourceMgr.goodTankR[flashImage] : ResourceMgr.badTankR[flashImage];
             default:
-                break;
+                return null;
         }
+    }
+
+    public void paint(Graphics g) {
+        if(!live) return;
+        g.drawImage(currentImage(), x, y, null);
+        flash();
         move();
+    }
+
+    private void flash() {
+        flashCount++;
+        if(flashCount % 10 == 0) {
+            flashCount = 0;
+            if(flashImage == 0) {
+                flashImage = 1;
+            } else {
+                flashImage = 0;
+            }
+        }
     }
 
     private void move() {
@@ -126,45 +141,11 @@ public class Tank {
     }
 
     public int width() {
-        int width = 0;
-        switch(dir) {
-            case UP:
-                width = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankU : ResourceMgr.badTankU).getWidth();
-                break;
-            case DOWN:
-                width = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankD : ResourceMgr.badTankD).getWidth();
-                break;
-            case LEFT:
-                width = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankL : ResourceMgr.badTankL).getWidth();
-                break;
-            case RIGHT:
-                width = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankR : ResourceMgr.badTankR).getWidth();
-                break;
-            default:
-                break;
-        }
-        return width;
+        return currentImage().getWidth();
     }
 
     public int height() {
-        int height = 0;
-        switch(dir) {
-            case UP:
-                height = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankU : ResourceMgr.badTankU).getHeight();
-                break;
-            case DOWN:
-                height = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankD : ResourceMgr.badTankD).getHeight();
-                break;
-            case LEFT:
-                height = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankL : ResourceMgr.badTankL).getHeight();
-                break;
-            case RIGHT:
-                height = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankR : ResourceMgr.badTankR).getHeight();
-                break;
-            default:
-                break;
-        }
-        return height;
+        return currentImage().getHeight();
     }
 
     public void die() {

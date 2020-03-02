@@ -1,6 +1,7 @@
 package com.my.project;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Bullet {
     private static final int SPEED = 10;
@@ -24,26 +25,24 @@ public class Bullet {
         this.rectangle.height = this.height();
     }
 
-    public void paint(Graphics g) {
-
-        if(!live) return;
-
+    private BufferedImage currentImage() {
         switch(dir) {
             case UP:
-                g.drawImage(ResourceMgr.bulletU, x, y, null);
-                break;
+                return ResourceMgr.bulletU;
             case DOWN:
-                g.drawImage(ResourceMgr.bulletD, x, y, null);
-                break;
+                return ResourceMgr.bulletD;
             case LEFT:
-                g.drawImage(ResourceMgr.bulletL, x, y, null);
-                break;
+                return ResourceMgr.bulletL;
             case RIGHT:
-                g.drawImage(ResourceMgr.bulletR, x, y, null);
-                break;
+                return ResourceMgr.bulletR;
             default:
-                break;
+                return null;
         }
+    }
+
+    public void paint(Graphics g) {
+        if(!live) return;
+        g.drawImage(currentImage(), x, y, null);
         move();
     }
 
@@ -72,45 +71,11 @@ public class Bullet {
     }
 
     public int width() {
-        int width = 0;
-        switch(dir) {
-            case UP:
-                width = ResourceMgr.bulletU.getWidth();
-                break;
-            case DOWN:
-                width = ResourceMgr.bulletD.getWidth();
-                break;
-            case LEFT:
-                width = ResourceMgr.bulletL.getWidth();
-                break;
-            case RIGHT:
-                width = ResourceMgr.bulletR.getWidth();
-                break;
-            default:
-                break;
-        }
-        return width;
+        return currentImage().getWidth();
     }
 
     public int height() {
-        int height = 0;
-        switch(dir) {
-            case UP:
-                height = ResourceMgr.bulletU.getHeight();
-                break;
-            case DOWN:
-                height = ResourceMgr.bulletD.getHeight();
-                break;
-            case LEFT:
-                height = ResourceMgr.bulletL.getHeight();
-                break;
-            case RIGHT:
-                height = ResourceMgr.bulletR.getHeight();
-                break;
-            default:
-                break;
-        }
-        return height;
+        return currentImage().getHeight();
     }
 
     public void collisionWith(Tank tank) {
