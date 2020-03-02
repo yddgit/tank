@@ -28,7 +28,11 @@ public class Explode {
             return;
         }
         if(step == 1) {
-            new Audio("audio/explode.wav").start();
+            new Thread(() -> {
+                try(Audio explode = new Audio("audio/explode.wav")) {
+                    explode.play();
+                }
+            }).start();
         }
         g.drawImage(ResourceMgr.explodes[step++], x, y, null);
     }

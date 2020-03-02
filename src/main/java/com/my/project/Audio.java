@@ -1,23 +1,32 @@
 package com.my.project;
 
 import javax.sound.sampled.*;
+import java.io.Closeable;
 import java.io.IOException;
 
-public class Audio extends Thread {
+public class Audio implements Closeable {
 
-    @Override
-    public void run() {
+    byte[] b = new byte[1024 * 1024 * 15];
+
+    public void loop() {
         try {
-            byte[] b = new byte[1024];
-            int len = 0;
-            sourceDataLine.open(audioFormat, 1024);
-            sourceDataLine.start();
-            while((len = audioInputStream.read(b)) > 0) {
-                sourceDataLine.write(b, 0, len);
+            while(true) {
+                int len = 0;
+                sourceDataLine.open(audioFormat, 1024 * 1024 * 15);
+
+                // change background audio volume to -40.0dB
+                FloatControl volCtrl = (FloatControl) sourceDataLine.getControl(FloatControl.Type.MASTER_GAIN);
+                volCtrl.setValue(-30.0f);
+
+                sourceDataLine.start();
+                audioInputStream.mark(12358946);
+                while((len = audioInputStream.read(b)) > 0) {
+                    sourceDataLine.write(b, 0, len);
+                }
+                audioInputStream.reset();
+                sourceDataLine.drain();
+                sourceDataLine.close();
             }
-            audioInputStream.close();
-            sourceDataLine.drain();
-            sourceDataLine.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,6 +65,7 @@ public class Audio extends Thread {
         }
     }
 
+    @Override
     public void close() {
         try {
             audioInputStream.close();
@@ -65,7 +75,7 @@ public class Audio extends Thread {
     }
 
     public static void main(String[] args) {
-        Audio a = new Audio("audio/explode.wav");
-        a.play();
+        Audio a = new Audio("audio/war1.wav");
+        a.loop();
     }
 }

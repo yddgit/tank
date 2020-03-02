@@ -50,6 +50,14 @@ public class Tank {
 
         if(!moving) return;
 
+        if(Group.GOOD.equals(this.group)) {
+            new Thread(() -> {
+                try(Audio explode = new Audio("audio/tank_move.wav")) {
+                    explode.play();
+                }
+            }).start();
+        }
+
         switch(dir) {
             case LEFT:
                 x -= SPEED;
@@ -65,12 +73,20 @@ public class Tank {
                 break;
         }
 
-        if(random.nextInt(10) > 8) {
+        if(Group.BAD.equals(this.group) && random.nextInt(10) > 8) {
             this.fire();
         }
     }
 
     public void fire() {
+        if(Group.GOOD.equals(this.group)) {
+            new Thread(() -> {
+                try(Audio explode = new Audio("audio/tank_fire.wav")) {
+                    explode.play();
+                }
+            }).start();
+
+        }
         tf.bullets.add(new Bullet(this.x + 19, this.y + 22, this.dir, this.group, this.tf));
     }
 
