@@ -18,7 +18,7 @@ public class Tank {
     private int flashCount = 0;
     private int flashImage = 0;
 
-    public static final int SPEED = 5;
+    public static final int SPEED = PropertyMgr.getTankSpeed(5);
 
     public Tank(int x, int y, Dir dir, Group group, TankFrame tf) {
         this.x = x;

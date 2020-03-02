@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Bullet {
-    private static final int SPEED = 10;
+    private static final int SPEED = PropertyMgr.getBulletSpeed(10);
     private int x;
     private int y;
     private Dir dir;
