@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class ResourceMgr {
+
+    private ResourceMgr() {}
+
     public static BufferedImage[] goodTankL;
     public static BufferedImage[] goodTankR;
     public static BufferedImage[] goodTankU;
