@@ -73,8 +73,33 @@ public class Tank {
                 break;
         }
 
-        if(Group.BAD.equals(this.group) && random.nextInt(10) > 8) {
+        if(Group.BAD.equals(this.group) && random.nextInt(100) > 95) {
             this.fire();
+        }
+
+        if(Group.BAD.equals(this.group) && random.nextInt(100) > 95) {
+            // random direct
+            this.dir = Dir.values()[random.nextInt(4)];
+        }
+
+        boundsCheck();
+    }
+
+    /**
+     * 边界检测
+     */
+    private void boundsCheck() {
+        if(this.x < 0) {
+            x = 0;
+        }
+        if(this.y < 30) {
+            y = 30;
+        }
+        if(this.x > TankFrame.GAME_WIDTH - this.width()) {
+            x = TankFrame.GAME_WIDTH - this.width();
+        }
+        if(this.y > TankFrame.GAME_HEIGHT - this.height()) {
+            y = TankFrame.GAME_HEIGHT - this.height();
         }
     }
 
