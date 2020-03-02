@@ -10,6 +10,7 @@ public class Bullet {
     private Group group = Group.BAD;
     private TankFrame tf;
     private boolean live = true;
+    private Rectangle rectangle = new Rectangle();
 
     public Bullet(int x, int y, Dir dir, Group group, TankFrame tf) {
         this.x = x;
@@ -17,6 +18,10 @@ public class Bullet {
         this.dir = dir;
         this.group = group;
         this.tf = tf;
+        this.rectangle.x = this.x;
+        this.rectangle.y = this.y;
+        this.rectangle.width = this.width();
+        this.rectangle.height = this.height();
     }
 
     public void paint(Graphics g) {
@@ -57,6 +62,9 @@ public class Bullet {
                 y += SPEED;
                 break;
         }
+
+        this.rectangle.x = this.x;
+        this.rectangle.y = this.y;
 
         if(x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) {
             live = false;
@@ -109,9 +117,7 @@ public class Bullet {
         if(this.group == tank.getGroup()) {
             return;
         }
-        Rectangle rect1 = new Rectangle(this.x, this.y, this.width(), this.height());
-        Rectangle rect2 = new Rectangle(tank.getX(), tank.getY(), tank.width(), tank.height());
-        if(rect1.intersects(rect2)) {
+        if(rectangle.intersects(tank.getRectangle())) {
             tank.die();
             this.die();
         }

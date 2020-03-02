@@ -11,6 +11,7 @@ public class Tank {
     private boolean moving = true;
     private TankFrame tf;
     private boolean live = true;
+    private Rectangle rectangle = new Rectangle();
     private Random random = new Random();
 
     public static final int SPEED = 5;
@@ -21,6 +22,10 @@ public class Tank {
         this.dir = dir;
         this.group = group;
         this.tf = tf;
+        this.rectangle.x = this.x;
+        this.rectangle.y = this.y;
+        this.rectangle.width = this.width();
+        this.rectangle.height = this.height();
     }
 
     public void paint(Graphics g) {
@@ -83,6 +88,9 @@ public class Tank {
         }
 
         boundsCheck();
+
+        this.rectangle.x = this.x;
+        this.rectangle.y = this.y;
     }
 
     /**
@@ -212,5 +220,9 @@ public class Tank {
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
     }
 }
