@@ -29,16 +29,16 @@ public class Tank {
 
         switch(dir) {
             case UP:
-                g.drawImage(ResourceMgr.tankU, x, y, null);
+                g.drawImage(Group.GOOD.equals(this.group) ? ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
                 break;
             case DOWN:
-                g.drawImage(ResourceMgr.tankD, x, y, null);
+                g.drawImage(Group.GOOD.equals(this.group) ? ResourceMgr.goodTankD : ResourceMgr.badTankD, x, y, null);
                 break;
             case LEFT:
-                g.drawImage(ResourceMgr.tankL, x, y, null);
+                g.drawImage(Group.GOOD.equals(this.group) ? ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);
                 break;
             case RIGHT:
-                g.drawImage(ResourceMgr.tankR, x, y, null);
+                g.drawImage(Group.GOOD.equals(this.group) ? ResourceMgr.goodTankR : ResourceMgr.badTankR, x, y, null);
                 break;
             default:
                 break;
@@ -79,31 +79,33 @@ public class Tank {
     }
 
     public void fire() {
+        Bullet b = new Bullet(this.x, this.y, this.dir, this.group, this.tf);
+        b.setX(this.x + this.width()/2 - b.width()/2);
+        b.setY(this.y + this.height()/2 - b.height()/2);
+        tf.bullets.add(b);
         if(Group.GOOD.equals(this.group)) {
             new Thread(() -> {
                 try(Audio explode = new Audio("audio/tank_fire.wav")) {
                     explode.play();
                 }
             }).start();
-
         }
-        tf.bullets.add(new Bullet(this.x + 19, this.y + 22, this.dir, this.group, this.tf));
     }
 
     public int width() {
         int width = 0;
         switch(dir) {
             case UP:
-                width = ResourceMgr.tankU.getWidth();
+                width = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankU : ResourceMgr.badTankU).getWidth();
                 break;
             case DOWN:
-                width = ResourceMgr.tankD.getWidth();
+                width = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankD : ResourceMgr.badTankD).getWidth();
                 break;
             case LEFT:
-                width = ResourceMgr.tankL.getWidth();
+                width = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankL : ResourceMgr.badTankL).getWidth();
                 break;
             case RIGHT:
-                width = ResourceMgr.tankR.getWidth();
+                width = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankR : ResourceMgr.badTankR).getWidth();
                 break;
             default:
                 break;
@@ -115,16 +117,16 @@ public class Tank {
         int height = 0;
         switch(dir) {
             case UP:
-                height = ResourceMgr.tankU.getHeight();
+                height = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankU : ResourceMgr.badTankU).getHeight();
                 break;
             case DOWN:
-                height = ResourceMgr.tankD.getHeight();
+                height = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankD : ResourceMgr.badTankD).getHeight();
                 break;
             case LEFT:
-                height = ResourceMgr.tankL.getHeight();
+                height = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankL : ResourceMgr.badTankL).getHeight();
                 break;
             case RIGHT:
-                height = ResourceMgr.tankR.getHeight();
+                height = (Group.GOOD.equals(this.group) ? ResourceMgr.goodTankR : ResourceMgr.badTankR).getHeight();
                 break;
             default:
                 break;
@@ -134,6 +136,9 @@ public class Tank {
 
     public void die() {
         this.live = false;
+        int eX = this.x + this.width()/2 - Explode.WIDTH/2;
+        int eY = this.y + this.height()/2 - Explode.HEIGHT/2;
+        tf.explodes.add(new Explode(eX, eY, tf));
     }
 
     public Dir getDir() {

@@ -114,7 +114,6 @@ public class Bullet {
         if(rect1.intersects(rect2)) {
             tank.die();
             this.die();
-            tf.explodes.add(new Explode(tank.getX(), tank.getY(), tf));
         }
     }
 
@@ -136,5 +135,21 @@ public class Bullet {
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }
