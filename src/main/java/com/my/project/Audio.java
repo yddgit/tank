@@ -49,10 +49,19 @@ public class Audio implements Closeable {
     }
 
     public void play() {
+        this.play(0);
+    }
+
+    public void play(float volume) {
         try {
             byte[] b = new byte[1024*5];
             int len = 0;
             sourceDataLine.open(audioFormat, 1024*5);
+
+            // set volume
+            FloatControl volCtrl = (FloatControl) sourceDataLine.getControl(FloatControl.Type.MASTER_GAIN);
+            volCtrl.setValue(volume);
+
             sourceDataLine.start();
             audioInputStream.mark(12358946);
             while((len = audioInputStream.read(b)) > 0) {

@@ -57,8 +57,8 @@ public class Tank {
 
         if(Group.GOOD.equals(this.group)) {
             new Thread(() -> {
-                try(Audio explode = new Audio("audio/tank_move.wav")) {
-                    explode.play();
+                try(Audio move = new Audio("audio/tank_move.wav")) {
+                    move.play(-20.0f);
                 }
             }).start();
         }
@@ -118,8 +118,8 @@ public class Tank {
         tf.bullets.add(b);
         if(Group.GOOD.equals(this.group)) {
             new Thread(() -> {
-                try(Audio explode = new Audio("audio/tank_fire.wav")) {
-                    explode.play();
+                try(Audio fire = new Audio("audio/tank_fire.wav")) {
+                    fire.play();
                 }
             }).start();
         }
