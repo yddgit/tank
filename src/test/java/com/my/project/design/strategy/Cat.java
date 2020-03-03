@@ -1,8 +1,8 @@
 package com.my.project.design.strategy;
 
 public class Cat implements Comparable<Cat> {
-    private int weight;
-    private int height;
+    int weight;
+    int height;
 
     public Cat(int weight, int height) {
         this.weight = weight;

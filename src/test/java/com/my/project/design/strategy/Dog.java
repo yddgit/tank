@@ -2,7 +2,7 @@ package com.my.project.design.strategy;
 
 public class Dog implements Comparable<Dog> {
 
-    private int food;
+    int food;
 
     public Dog(int food) {
         this.food = food;
