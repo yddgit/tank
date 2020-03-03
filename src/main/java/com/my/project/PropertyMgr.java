@@ -1,6 +1,7 @@
 package com.my.project;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.Properties;
 
 public class PropertyMgr {
@@ -43,5 +44,24 @@ public class PropertyMgr {
 
     public static int getGameHeight(int defaultHeight) {
         return Integer.parseInt(get("game.height", Integer.toString(defaultHeight)));
+    }
+
+    public static FireStrategy getTankGoodFireStrategy() {
+        return getFireStrategy("tank.good.fire.strategy.class.name");
+    }
+
+    public static FireStrategy getTankBadFireStrategy() {
+        return getFireStrategy("tank.bad.fire.strategy.class.name");
+    }
+
+    private static FireStrategy getFireStrategy(String key) {
+        try {
+            Constructor c = Class.forName(get(key)).getDeclaredConstructor();
+            c.setAccessible(true);
+            return (FireStrategy) c.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

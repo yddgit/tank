@@ -18,6 +18,8 @@ public class Tank {
     private int flashCount = 0;
     private int flashImage = 0;
 
+    private FireStrategy fireStrategy;
+
     public static final int SPEED = PropertyMgr.getTankSpeed(5);
 
     public Tank(int x, int y, Dir dir, Group group, TankFrame tf) {
@@ -30,6 +32,11 @@ public class Tank {
         this.rectangle.y = this.y;
         this.rectangle.width = this.width();
         this.rectangle.height = this.height();
+        if(Group.GOOD.equals(this.group)) {
+            this.fireStrategy = PropertyMgr.getTankGoodFireStrategy();
+        } else {
+            this.fireStrategy = PropertyMgr.getTankBadFireStrategy();
+        }
     }
 
     private BufferedImage currentImage() {
@@ -127,17 +134,7 @@ public class Tank {
     }
 
     public void fire() {
-        Bullet b = new Bullet(this.x, this.y, this.dir, this.group, this.tf);
-        b.setX(this.x + this.width()/2 - b.width()/2);
-        b.setY(this.y + this.height()/2 - b.height()/2);
-        tf.bullets.add(b);
-        if(Group.GOOD.equals(this.group)) {
-            new Thread(() -> {
-                try(Audio fire = new Audio("audio/tank_fire.wav")) {
-                    fire.play();
-                }
-            }).start();
-        }
+        this.fireStrategy.fire(this);
     }
 
     public int width() {
@@ -201,6 +198,14 @@ public class Tank {
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public TankFrame getTf() {
+        return tf;
+    }
+
+    public void setTf(TankFrame tf) {
+        this.tf = tf;
     }
 
     public Rectangle getRectangle() {
