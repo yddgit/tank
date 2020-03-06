@@ -1,5 +1,7 @@
 package com.my.project;
 
+import com.my.project.abstractfactory.GameFactory;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -147,9 +149,9 @@ public class Tank {
 
     public void die() {
         this.live = false;
-        int eX = this.x + this.width()/2 - Explode.WIDTH/2;
-        int eY = this.y + this.height()/2 - Explode.HEIGHT/2;
-        tf.explodes.add(new Explode(eX, eY, tf));
+        int eX = this.x + this.width()/2;
+        int eY = this.y + this.height()/2;
+        tf.explodes.add(GameFactory.LIGHT.createExplode(eX, eY, tf));
     }
 
     public Dir getDir() {

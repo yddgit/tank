@@ -1,11 +1,13 @@
-package com.my.project;
+package com.my.project.abstractfactory;
 
-import com.my.project.abstractfactory.BaseExplode;
+import com.my.project.Audio;
+import com.my.project.ResourceMgr;
+import com.my.project.TankFrame;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Explode extends BaseExplode {
+public class LightExplode extends BaseExplode {
 
     private int x;
     private int y;
@@ -13,7 +15,7 @@ public class Explode extends BaseExplode {
 
     private boolean living = true;
 
-    public Explode(int x, int y, TankFrame tf) {
+    public LightExplode(int x, int y, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.tf = tf;
@@ -24,7 +26,7 @@ public class Explode extends BaseExplode {
     public void paint(Graphics g) {
         if(!living) return;
 
-        if(step >= ResourceMgr.explodes.length) {
+        if(step >= ResourceMgr.lightExplodes.length) {
             this.die();
             return;
         }
@@ -35,7 +37,7 @@ public class Explode extends BaseExplode {
                 }
             }).start();
         }
-        BufferedImage image = ResourceMgr.explodes[step++];
+        BufferedImage image = ResourceMgr.lightExplodes[step++];
         g.drawImage(image, x - image.getWidth()/2, y - image.getHeight()/2, null);
     }
 

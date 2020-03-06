@@ -1,6 +1,8 @@
 package com.my.project;
 
 
+import com.my.project.abstractfactory.BaseExplode;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -18,7 +20,7 @@ public class TankFrame extends Frame {
     Tank myTank = new Tank(200, 400, Dir.DOWN, Group.GOOD, this);
     List<Bullet> bullets = new ArrayList<Bullet>();
     List<Tank> enemies = new ArrayList<Tank>();
-    List<Explode> explodes = new ArrayList<Explode>();
+    List<BaseExplode> explodes = new ArrayList<BaseExplode>();
 
     public TankFrame() {
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -87,8 +89,8 @@ public class TankFrame extends Frame {
             }
         }
 
-        for(Iterator<Explode> it = explodes.iterator(); it.hasNext();) {
-            Explode e = it.next();
+        for(Iterator<BaseExplode> it = explodes.iterator(); it.hasNext();) {
+            BaseExplode e = it.next();
             if(!e.isLiving()) {
                 it.remove();
                 continue;
