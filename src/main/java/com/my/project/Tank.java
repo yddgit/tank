@@ -151,7 +151,7 @@ public class Tank {
         this.live = false;
         int eX = this.x + this.width()/2;
         int eY = this.y + this.height()/2;
-        tf.explodes.add(GameFactory.LIGHT.createExplode(eX, eY, tf));
+        tf.explodes.add(GameFactory.DEFAULT.createExplode(eX, eY, tf));
     }
 
     public Dir getDir() {
