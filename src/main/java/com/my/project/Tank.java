@@ -150,8 +150,8 @@ public class Tank {
 
     public void die() {
         this.live = false;
-        int eX = this.x + this.width()/2 - Explode.WIDTH/2;
-        int eY = this.y + this.height()/2 - Explode.HEIGHT/2;
+        int eX = this.x + this.width()/2;
+        int eY = this.y + this.height()/2;
         tf.explodes.add(new Explode(eX, eY, tf));
     }
 
